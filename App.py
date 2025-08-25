@@ -18,20 +18,18 @@
 
 
 import streamlit as st
+import os
 from auth_utils import check_password
 from datetime import date
-
-
 
 # ✅ Set page config FIRST
 st.set_page_config(page_title="CV Analyzer", layout="wide")
 
 # 🔐 Auth check
-# Modular password retrieval
-if "auth" in st.secrets:
+try:
     secret = st.secrets["auth"]["password"]  # Local dev via secrets.toml
-else:
-    secret = os.getenv("APP_PASSWORD")  # Render deployment
+except Exception:
+    secret = os.getenv("APP_PASSWORD")  # Render deployment fallback
 
 check_password(secret=secret)
 
