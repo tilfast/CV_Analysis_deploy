@@ -37,7 +37,6 @@ else:
     source = "env var (no secrets.toml)"
 
 check_password(secret=secret)
-st.sidebar.info(f"🔐 Auth source: {source}")
 
 
 # 📅 Daily tracking

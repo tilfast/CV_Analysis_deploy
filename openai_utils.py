@@ -23,11 +23,12 @@ try:
 except Exception:
     st = None
 
-print("openai.api_key:", os.getenv("OPENAI_API_KEY"))
+
     
     
 def _get_api_key() -> str:
     key = os.getenv("OPENAI_API_KEY")
+    print("openai.api_key:", os.getenv("OPENAI_API_KEY"))
     if key:
         return key
     if st is not None:
