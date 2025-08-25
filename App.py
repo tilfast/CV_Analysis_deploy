@@ -22,14 +22,13 @@ import os
 from auth_utils import check_password
 from datetime import date
 
-# ✅ Set page config FIRST
 st.set_page_config(page_title="CV Analyzer", layout="wide")
 
-# 🔐 Auth check
+# 🔐 Auth check with safe fallback
 try:
-    secret = st.secrets["auth"]["password"]  # Local dev via secrets.toml
-except Exception:
-    secret = os.getenv("APP_PASSWORD")  # Render deployment fallback
+    secret = st.secrets["auth"]["password"]
+except FileNotFoundError:
+    secret = os.getenv("APP_PASSWORD")
 
 check_password(secret=secret)
 
