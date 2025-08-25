@@ -18,8 +18,32 @@
 
 
 import streamlit as st
-# FIRST Streamlit command, only once:
+from auth_utils import check_password
+from datetime import date
+
+# ✅ Set page config FIRST
 st.set_page_config(page_title="CV Analyzer", layout="wide")
+
+# 🔐 Auth check
+check_password(secret=st.secrets["auth"]["password"])
+
+# 📅 Daily tracking
+if "openai_daily" not in st.session_state:
+    st.session_state["openai_daily"] = {"date": date.today(), "count": 0}
+
+if st.session_state["openai_daily"]["date"] != date.today():
+    st.session_state["openai_daily"] = {"date": date.today(), "count": 0}
+
+MAX_CALLS_PER_DAY = 5
+
+if st.session_state["openai_daily"]["count"] >= MAX_CALLS_PER_DAY:
+    st.warning("You've reached the daily limit for OpenAI calls.")
+    st.stop()
+
+st.session_state["openai_daily"]["count"] += 1
+#st.success(f"OpenAI call #{st.session_state['openai_daily']['count']} today.")
+
+# 🧠 App title
 st.title("📄 CV Analyzer with OpenAI")
 
 import json
