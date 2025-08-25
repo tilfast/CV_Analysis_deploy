@@ -25,7 +25,14 @@ from datetime import date
 st.set_page_config(page_title="CV Analyzer", layout="wide")
 
 # 🔐 Auth check
-check_password(secret=st.secrets["auth"]["password"])
+# Modular password retrieval
+if "auth" in st.secrets:
+    secret = st.secrets["auth"]["password"]  # Local dev via secrets.toml
+else:
+    secret = os.getenv("APP_PASSWORD")  # Render deployment
+
+check_password(secret=secret)
+
 
 # 📅 Daily tracking
 if "openai_daily" not in st.session_state:
