@@ -21,6 +21,8 @@ import streamlit as st
 from auth_utils import check_password
 from datetime import date
 
+
+
 # ✅ Set page config FIRST
 st.set_page_config(page_title="CV Analyzer", layout="wide")
 
