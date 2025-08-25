@@ -25,12 +25,19 @@ from datetime import date
 st.set_page_config(page_title="CV Analyzer", layout="wide")
 
 # 🔐 Auth check with safe fallback
-try:
-    secret = st.secrets["auth"]["password"]
-except FileNotFoundError:
+if os.path.exists(".streamlit/secrets.toml"):
+    try:
+        secret = st.secrets["auth"]["password"]
+        source = "secrets.toml"
+    except Exception:
+        secret = os.getenv("APP_PASSWORD")
+        source = "env var (fallback)"
+else:
     secret = os.getenv("APP_PASSWORD")
+    source = "env var (no secrets.toml)"
 
 check_password(secret=secret)
+st.sidebar.info(f"🔐 Auth source: {source}")
 
 
 # 📅 Daily tracking
